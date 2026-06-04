@@ -1,25 +1,9 @@
 import { useState } from "react";
+import type { CardType, UniqueCardType } from "../components/types/CardType";
+import createMemoryDeck from "../utils/createMemoryDeck";
 
-type CardType = {
-  id: number;
-  name: string;
-  image: string;
-  isFlipped: boolean;
-  isMatched: boolean;
-};
-
-const useMemory = () => {
-  // State to hold the cards and their flipped status
-  const [cards, setCards] = useState<CardType[]>([
-    { id: 1, name: "Card 1", image: "/cards/Apple.png", isFlipped: false, isMatched: false },
-    { id: 2, name: "Card 2", image: "/cards/Banana.png", isFlipped: false, isMatched: false },
-    { id: 3, name: "Card 3", image: "/cards/Cherry.png", isFlipped: false, isMatched: false },
-    { id: 4, name: "Card 4", image: "/cards/Lime.png", isFlipped: false, isMatched: false },
-    { id: 5, name: "Card 5", image: "/cards/Apple.png", isFlipped: false, isMatched: false },
-    { id: 6, name: "Card 6", image: "/cards/Banana.png", isFlipped: false, isMatched: false },
-    { id: 7, name: "Card 7", image: "/cards/Cherry.png", isFlipped: false, isMatched: false },
-    { id: 8, name: "Card 8", image: "/cards/Lime.png", isFlipped: false, isMatched: false },
-  ]);
+const useMemory = (uniqueCards: UniqueCardType[]) => {
+  const [cards, setCards] = useState<CardType[]>(createMemoryDeck(uniqueCards));
 
   const isGameOver = cards.every((card) => card.isMatched);
 
