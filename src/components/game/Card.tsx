@@ -12,7 +12,7 @@ const Card = ({ onClick, src, alt, isFlipped, isMatched }: CardProps) => {
   if (!isFlipped && !isMatched) {
     return (
       <div className={styles.card} onClick={onClick}>
-        <img src="/cards/back.png" alt="Card back" className={styles.cardImage} />
+        <img src="/cards/A_Panel.png" alt="Card back" className={styles.cardImage} />
       </div>
     );
   }

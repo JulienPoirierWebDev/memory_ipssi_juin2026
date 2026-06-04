@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Gameover from "../gameover/Gameover";
 import Card from "./Card";
 import styles from "./Game.module.css";
 
@@ -11,19 +12,6 @@ type CardType = {
 };
 
 const Game = () => {
-  /*
-
-  [
-    { id: 1, name: "Card 1", image: "/cards/Apple.png" },
-    { id: 2, name: "Card 2", image: "/cards/Banana.png" },
-    { id: 3, name: "Card 3", image: "/cards/Cherry.png" },
-    { id: 4, name: "Card 4", image: "/cards/Lime.png" },
-    { id: 5, name: "Card 5", image: "/cards/Apple.png" },
-    { id: 6, name: "Card 6", image: "/cards/Banana.png" },
-    { id: 7, name: "Card 7", image: "/cards/Cherry.png" },
-    { id: 8, name: "Card 8", image: "/cards/Lime.png" },
-  ]
-    */
   const [cards, setCards] = useState<CardType[]>([
     { id: 1, name: "Card 1", image: "/cards/Apple.png", isFlipped: false, isMatched: false },
     { id: 2, name: "Card 2", image: "/cards/Banana.png", isFlipped: false, isMatched: false },
@@ -34,6 +22,8 @@ const Game = () => {
     { id: 7, name: "Card 7", image: "/cards/Cherry.png", isFlipped: false, isMatched: false },
     { id: 8, name: "Card 8", image: "/cards/Lime.png", isFlipped: false, isMatched: false },
   ]);
+
+  const isGameOver = cards.every((card) => card.isMatched);
 
   const handleCardClick = (cardId: number) => {
     const numberOfFlippedCards = cards.filter((card) => card.isFlipped).length;
@@ -87,19 +77,33 @@ const Game = () => {
     }
   };
 
+  const resetGame = () => {
+    setCards((prevCards) =>
+      prevCards.map((card) => ({
+        ...card,
+        isFlipped: false,
+        isMatched: false,
+      })),
+    );
+  };
+
   return (
-    <div className={styles.cards}>
-      {cards.map((card) => (
-        <Card
-          key={card.id}
-          onClick={() => handleCardClick(card.id)}
-          src={card.image}
-          alt={card.name}
-          isFlipped={card.isFlipped}
-          isMatched={card.isMatched}
-        />
-      ))}
-    </div>
+    <>
+      {isGameOver && <Gameover onRestart={resetGame} />}
+
+      <div className={styles.cards}>
+        {cards.map((card) => (
+          <Card
+            key={card.id}
+            onClick={() => handleCardClick(card.id)}
+            src={card.image}
+            alt={card.name}
+            isFlipped={card.isFlipped}
+            isMatched={card.isMatched}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 
